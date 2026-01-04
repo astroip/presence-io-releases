@@ -1,0 +1,17 @@
+{
+    "name": "presence-io",
+    "version": "1.0.0-jdeploy-test",
+    "description": "Presence IO - Desktop Application",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/astroip/presence-io"
+    },
+    "author": "presence-io",
+    "license": "UNLICENSED",
+    "jdeploy": {
+        "jar": "../presence-desktop-app/target/presence-io-jdeploy.jar",
+        "javaVersion": "17",
+        "javafx": true
+    }
+}
