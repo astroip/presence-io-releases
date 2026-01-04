@@ -1,7 +1,10 @@
 {
     "name": "@astroip-fr/presence-io",
-    "version": "1.0.0-jdeploy-test8",
+    "version": "1.0.0-jdeploy-final",
     "description": "Presence IO - Desktop Application",
+    "publishConfig": {
+        "access": "public"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/astroip/presence-io-releases"
