@@ -1,9 +1,12 @@
 {
     "name": "@astroip-fr/presence-io",
-    "version": "1.0.0-rc9",
+    "version": "1.0.0-rc10",
     "description": "Presence IO - Desktop Application",
     "bin": {
         "presence-io": "jdeploy-bundle/jdeploy.js"
+    },
+    "dependencies": {
+        "node-fetch": "^2.7.0"
     },
     "publishConfig": {
         "access": "public"
