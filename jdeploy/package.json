@@ -1,6 +1,6 @@
 {
     "name": "@astroip-fr/presence-io",
-    "version": "1.0.0-rc17",
+    "version": "1.0.0-rc27",
     "description": "Presence IO - Desktop Application",
     "bin": {
         "presence-io": "jdeploy-bundle/jdeploy.js"
@@ -26,7 +26,6 @@
     "jdeploy": {
         "jar": "../presence-desktop-app/target/presence-io-jdeploy.jar",
         "javaVersion": "17",
-        "javafx": true,
-        "icon": "icon.png"
+        "javafx": true
     }
 }
