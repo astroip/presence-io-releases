@@ -1,231 +1,101 @@
-# Configuration Dépôt Public de Releases pour jDeploy
+# jDeploy Configuration
 
-## 🎯 Vue d'Ensemble
+Ce dossier contient la configuration jDeploy pour générer des installers natifs multi-plateformes de Presence IO.
 
-Ce guide explique comment configurer un dépôt GitHub **public** séparé pour distribuer les releases via jDeploy, tout en gardant votre code source **privé**.
+## 🎯 Distribution Strategy
 
----
+**GitHub Releases uniquement** - Aucun artefact n'est publié sur npm.
 
-## 📋 Étape 1 : Créer le Dépôt Public
+## 🔨 Build Local
 
-### Sur GitHub
-
-1. Aller sur https://github.com/new
-2. **Repository name**: `presence-io-releases` (ou `presence-io-public`)
-3. **Visibility**: ✅ **Public**
-4. **Initialize with**: ✅ README
-5. Créer le dépôt
-
-### Contenu du README.md (exemple)
-
-```markdown
-# Presence IO
-
-Application de gestion de présence automatique.
-
-## 📥 Installation
-
-**macOS, Windows, Linux**
-
-[⬇️ Installer Presence IO](https://www.jdeploy.com/~astroip/presence-io-releases)
-
-L'application inclut le JRE et se met à jour automatiquement.
-
-## 📖 Documentation
-
-- [Guide utilisateur](https://votre-site.com/docs)
-- [FAQ](https://votre-site.com/faq)
-
-## 🐛 Support
-
-Pour toute question ou problème : support@votre-domaine.com
-
----
-
-**Note**: Ce dépôt contient uniquement les releases publiques. Le code source est propriétaire.
-```
-
----
-
-## 🔑 Étape 2 : Créer un Personal Access Token (PAT)
-
-### GitHub Settings
-
-1. Aller sur https://github.com/settings/tokens
-2. **Classic tokens** → **Generate new token (classic)**
-3. **Note**: `jDeploy Public Releases`
-4. **Expiration**: 90 days (ou No expiration pour simplifier)
-5. **Scopes** à cocher:
-   - ✅ `repo` (Full control of private repositories)
-   - ✅ `write:packages`
-   - ✅ `delete:packages`
-
-6. Générer le token et **le copier** (vous ne pourrez plus le voir)
-
-### Ajouter dans GitHub Secrets
-
-1. Dans votre dépôt **privé** : `Settings` → `Secrets and variables` → `Actions`
-2. **New repository secret**
-   - Name: `PERSONAL_ACCESS_TOKEN`
-   - Value: Coller le token copié
-3. Sauvegarder
-
----
-
-## ⚙️ Étape 3 : Configurer le Workflow
-
-### Modifier le workflow
-
-Éditez `.github/workflows/publish-public-release.yml` :
-
-```yaml
-# Ligne 60 - Changer le nom du dépôt public
-repository: astroip/presence-io-releases  # ← VOTRE dépôt public
-
-# Ligne 83 - Même chose
-repository: astroip/presence-io-releases  # ← VOTRE dépôt public
-```
-
----
-
-## 🧪 Étape 4 : Tester
-
-### Test en local (optionnel)
+### Option 1: Build Maven uniquement
 
 ```bash
-# 1. Build
+# Depuis la racine du projet
 ./scripts/jdeploy-build.sh
-
-# 2. Vérifier le JAR
-ls -lh presence-desktop-app/target/presence-io-jdeploy.jar
 ```
 
-### Test avec une Release
+Produit: `presence-desktop-app/target/presence-io-jdeploy.jar`
+
+### Option 2: Build + Bundle jDeploy local
 
 ```bash
-# 1. Créer un tag de test
-git tag v1.0.0-test
-git push origin v1.0.0-test
-
-# 2. Créer une Release sur GitHub (dépôt privé)
-# → Le workflow se déclenche automatiquement
-
-# 3. Vérifier:
-# - Dépôt public : nouvelle release créée
-# - GitHub Actions : workflow réussi
+# Depuis la racine du projet
+./scripts/jdeploy-bundle.sh
 ```
 
----
+Produit: 
+- JAR: `presence-desktop-app/target/presence-io-jdeploy.jar`
+- Bundle: `jdeploy/jdeploy-bundle/`
 
-## 🚀 Workflow de Release Complet
-
-### Depuis Votre Dépôt Privé
+### Option 3: Commandes manuelles
 
 ```bash
-# Option A: Script automatique
-./scripts/release.sh 1.0.0
+# Build Maven avec profil jDeploy
+mvn -Pjdeploy -pl presence-desktop-app -am clean package -DskipTests
 
-# Option B: Manuel
-git tag v1.0.0
-git push origin v1.0.0
-# Puis créer la Release sur GitHub
+# Génération bundle jDeploy
+cd jdeploy
+npx jdeploy bundle
 ```
 
-### Ce Qui Se Passe Automatiquement
+## 🚀 Publication (CI/CD)
 
-1. ✅ Workflow se déclenche dans dépôt **privé**
-2. ✅ Build Maven + jDeploy
-3. ✅ Copie vers dépôt **public**
-4. ✅ Création Release publique
-5. ✅ Publication jDeploy
-6. ✅ URL disponible : `https://www.jdeploy.com/~astroip/presence-io-releases`
+La publication est automatisée via GitHub Actions:
 
-### Vos Clients
+**Workflow**: `.github/workflows/jdeploy-release.yml`  
+**Déclencheur**: Publication d'une GitHub Release
 
-1. Vont sur l'URL jDeploy
-2. Cliquent "Install"
-3. App installée **sans certificat Apple**
-4. Auto-update automatique
+### Process
 
----
+1. Build Maven avec profil `-Pjdeploy`
+2. Mise à jour de la version dans `package.json`
+3. Publication via `npx jdeploy publish`
+4. Installers créés pour la plateforme CI (Linux par défaut)
 
-## 📊 Résumé Architecture
+## 📦 Structure
 
 ```
-┌──────────────────────────────────┐
-│  astroip/presence-io (PRIVÉ)     │
-│  - Code source                   │
-│  - Développement                 │
-│  - CI/CD                         │
-└────────────┬─────────────────────┘
-             │
-             │ GitHub Actions
-             │ (publish-public-release.yml)
-             ▼
-┌──────────────────────────────────┐
-│ astroip/presence-io-releases     │
-│ (PUBLIC)                         │
-│  - README marketing              │
-│  - GitHub Releases               │
-│  - Binaires seulement            │
-└────────────┬─────────────────────┘
-             │
-             │ jDeploy
-             ▼
-┌──────────────────────────────────┐
-│  URL Installation Clients        │
-│  jdeploy.com/~astroip/...        │
-│  - Sans certificat Apple         │
-│  - Auto-update                   │
-└──────────────────────────────────┘
+jdeploy/
+├── package.json          # Configuration jDeploy
+├── .gitignore           # Exclusions build artifacts
+├── README.md            # Ce fichier
+└── jdeploy-bundle/      # (généré) Bundle jDeploy local
 ```
 
----
+## ⚙️ Configuration
 
-## ✅ Checklist de Configuration
+### package.json
 
-- [ ] Dépôt public créé sur GitHub
-- [ ] README marketing ajouté au dépôt public
-- [ ] Personal Access Token créé
-- [ ] Token ajouté aux Secrets GitHub (dépôt privé)
-- [ ] Workflow modifié avec le bon nom de dépôt
-- [ ] Test avec une release
-- [ ] URL jDeploy testée
-- [ ] Documentation client mise à jour
+- `jdeploy.jar`: Chemin vers le JAR stable produit par Maven
+- `jdeploy.javaVersion`: Version Java requise (17)
+- `jdeploy.javafx`: true (jDeploy télécharge JRE avec JavaFX)
 
----
+### Maven Profile
 
-## 🔒 Sécurité
+Le profil `jdeploy` dans `presence-desktop-app/pom.xml`:
+- Copie le JAR shaded existant (`*-app.jar`)
+- Vers un nom stable (`presence-io-jdeploy.jar`)
+- **Zéro impact** sur le build standard
 
-### Ce Qui Est Public
-- ✅ Binaires (JAR compilés)
-- ✅ README marketing
-- ✅ Releases GitHub
+## 🌐 Multi-Plateforme
 
-### Ce Qui Reste Privé
-- ✅ Code source Java
-- ✅ Configuration Maven
-- ✅ Secrets (clés de licence, etc.)
-- ✅ Historique Git développement
+### Phase 1 (Actuelle): Linux uniquement
 
----
+Le workflow CI tourne sur `ubuntu-latest`.
 
-## 🆘 Troubleshooting
+⚠️ **Note JavaFX**: Le POM utilise `javafx.platform=mac-aarch64`. Pour build CI Linux:
+- Option A: Utiliser macOS runner (`runs-on: macos-latest`)
+- Option B: Refactoriser JavaFX par profils OS
 
-### Erreur: "Resource not accessible by integration"
+### Phase 2 (Future): Matrix multi-OS
 
-**Solution**: Vérifier que le `PERSONAL_ACCESS_TOKEN` a les permissions `repo`.
+Pour générer des installers Windows/macOS natifs:
+1. Ajouter matrix strategy au workflow
+2. Adapter configuration jDeploy par OS
+3. Voir `release.yml` existant comme référence
 
-### Erreur: "Repository not found"
+## 📚 Documentation
 
-**Solution**: Vérifier le nom du dépôt public dans le workflow (lignes 60 et 83).
-
-### jDeploy ne trouve pas la release
-
-**Solution**: Vérifier que la release est bien créée sur le dépôt **public** (pas le privé).
-
----
-
-## 📞 Support
-
-Questions ? Créez une issue dans le dépôt privé.
+- [jDeploy Official Docs](https://www.jdeploy.com/docs/)
+- [GitHub Action](https://github.com/shannah/jdeploy)
