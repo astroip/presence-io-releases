@@ -539,7 +539,7 @@ if (!done) {
 }
 
 if (!done) {
-    console.log("Downloading java runtime environment for version "+targetJavaVersion);
+    console.error("Downloading java runtime environment for version "+targetJavaVersion);
     njre.install(targetJavaVersion, {type: bundleType, javafx: javafx}).then(function(dir) {
         var _javaHome = getJavaHomeInPath(dir);
         if (_javaHome == null)
@@ -588,6 +588,7 @@ function run(_javaHome) {
 
     var userArgs = process.argv.slice(2);
     var javaArgs = [];
+    javaArgs.push('-Djdeploy.mode=npx');
     javaArgs.push('-Djdeploy.base='+__dirname);
     javaArgs.push('-Djdeploy.port='+port);
     javaArgs.push('-Djdeploy.war.path='+warPath);
