@@ -1,7 +1,7 @@
 {
-    "name": "@presence-io-labs/app",
-    "version": "1.0.0-rc43",
-    "description": "Presence IO Labs — Early Access Desktop Application",
+    "name": "@presence-io/app",
+    "version": "0.0.0",
+    "description": "Presence IO - Desktop Application",
     "bin": {
         "presence-io": "jdeploy-bundle/jdeploy.js"
     },
@@ -24,7 +24,7 @@
     "author": "presence-io",
     "license": "UNLICENSED",
     "jdeploy": {
-        "jar": "presence-desktop-app/target/presence-io-jdeploy.jar",
+        "jar": "../presence-desktop-app/target/presence-io-jdeploy.jar",
         "javaVersion": "17",
         "javafx": true
     }

@@ -1,101 +1,98 @@
-# jDeploy Configuration
+<div align="center">
 
-Ce dossier contient la configuration jDeploy pour générer des installers natifs multi-plateformes de Presence IO.
+# Presence IO
 
-## 🎯 Distribution Strategy
+**Restez "en ligne" automatiquement — sans effort, sans friction.**
 
-**GitHub Releases uniquement** - Aucun artefact n'est publié sur npm.
+[![Labs](https://img.shields.io/badge/canal-Labs%20(Early%20Access)-blueviolet?style=flat-square)](https://www.jdeploy.com/~presence-io-labs/app)
+[![Stable](https://img.shields.io/badge/canal-Stable-brightgreen?style=flat-square)](https://www.jdeploy.com/~presence-io/app)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=flat-square)](#)
+[![Java](https://img.shields.io/badge/Java-17%2B-orange?style=flat-square)](#)
 
-## 🔨 Build Local
+</div>
 
-### Option 1: Build Maven uniquement
+---
 
-```bash
-# Depuis la racine du projet
-./scripts/jdeploy-build.sh
+## 📥 Installation
+
+Choisissez votre canal selon votre profil :
+
+| Canal | Description | Lien |
+|---|---|---|
+| 🟢 **Stable** | Releases validées, recommandé pour tous | [Installer Stable](https://www.jdeploy.com/~presence-io/app) |
+| 🟣 **Labs** (Early Access) | Dernières fonctionnalités, early adopters | [Installer Labs](https://www.jdeploy.com/~presence-io-labs/app) |
+
+> L'installeur intègre le JRE — **aucun Java préinstallé nécessaire**.  
+> L'application se **met à jour automatiquement** à chaque release.
+
+---
+
+## 🖥️ Compatibilité
+
+| OS | Statut |
+|---|---|
+| macOS (Apple Silicon / Intel) | ✅ Supporté |
+| Windows 10 / 11 | ✅ Supporté |
+| Linux (x86_64) | ✅ Supporté |
+
+---
+
+## ✨ Fonctionnalités
+
+- **Simulation de présence** : mouvements de souris, activité clavier, signaux ciblés
+- **Profils configurables** : plannings horaires, intervalles, patterns aléatoires
+- **Architecture plugin** : stratégies et cibles extensibles (Mouse Jiggler, Teams, etc.)
+- **Multi-plateformes** : comportement natif adapté à chaque OS
+- **Mode Stealth** : discret, sans fenêtre visible *(PRO)*
+- **Auto-pause** : se met en pause quand vous êtes actif *(PRO)*
+
+---
+
+## 🚀 Premiers pas
+
+1. Cliquer sur le lien d'installation correspondant à votre canal
+2. Suivre l'assistant d'installation jDeploy
+3. Lancer **Presence IO** depuis vos applications
+4. Créer un profil et cliquer **Démarrer**
+
+---
+
+## 🔄 Cycle de releases
+
+```
+develop ──→ release/** ──→ [tag vX.Y.Z-rcN] ──→ 🟣 Labs (Early Access)
+                        └─→ [tag vX.Y.Z]     ──→ 🟢 Stable (Production)
 ```
 
-Produit: `presence-desktop-app/target/presence-io-jdeploy.jar`
+- Les **Release Candidates** (`-rc`) sont publiées sur le canal Labs
+- Seules les versions **stables** (`vX.Y.Z`) arrivent sur le canal Stable
 
-### Option 2: Build + Bundle jDeploy local
+---
 
-```bash
-# Depuis la racine du projet
-./scripts/jdeploy-bundle.sh
-```
+## 📖 Documentation
 
-Produit: 
-- JAR: `presence-desktop-app/target/presence-io-jdeploy.jar`
-- Bundle: `jdeploy/jdeploy-bundle/`
+- [Site officiel](https://presence-io.com)
+- [Guide utilisateur](https://presence-io.com/docs)
+- [FAQ](https://presence-io.com/faq)
 
-### Option 3: Commandes manuelles
+---
 
-```bash
-# Build Maven avec profil jDeploy
-mvn -Pjdeploy -pl presence-desktop-app -am clean package -DskipTests
+## 🐛 Support & Feedback
 
-# Génération bundle jDeploy
-cd jdeploy
-npx jdeploy bundle
-```
+- 🐛 Bugs et suggestions : [presence-io.com/support](https://presence-io.com/support)  
+- 📧 Contact : support@presence-io.com
 
-## 🚀 Publication (CI/CD)
+---
 
-La publication est automatisée via GitHub Actions:
+## 🔒 Note sur ce dépôt
 
-**Workflow**: `.github/workflows/jdeploy-release.yml`  
-**Déclencheur**: Publication d'une GitHub Release
+Ce dépôt contient **uniquement les releases publiques** (binaires compilés).  
+Le code source est propriétaire — aucun secret ni donnée sensible n'est présent ici.
 
-### Process
+---
 
-1. Build Maven avec profil `-Pjdeploy`
-2. Mise à jour de la version dans `package.json`
-3. Publication via `npx jdeploy publish`
-4. Installers créés pour la plateforme CI (Linux par défaut)
+<div align="center">
 
-## 📦 Structure
+Made with ☕ by the Presence IO team
 
-```
-jdeploy/
-├── package.json          # Configuration jDeploy
-├── .gitignore           # Exclusions build artifacts
-├── README.md            # Ce fichier
-└── jdeploy-bundle/      # (généré) Bundle jDeploy local
-```
-
-## ⚙️ Configuration
-
-### package.json
-
-- `jdeploy.jar`: Chemin vers le JAR stable produit par Maven
-- `jdeploy.javaVersion`: Version Java requise (17)
-- `jdeploy.javafx`: true (jDeploy télécharge JRE avec JavaFX)
-
-### Maven Profile
-
-Le profil `jdeploy` dans `presence-desktop-app/pom.xml`:
-- Copie le JAR shaded existant (`*-app.jar`)
-- Vers un nom stable (`presence-io-jdeploy.jar`)
-- **Zéro impact** sur le build standard
-
-## 🌐 Multi-Plateforme
-
-### Phase 1 (Actuelle): Linux uniquement
-
-Le workflow CI tourne sur `ubuntu-latest`.
-
-⚠️ **Note JavaFX**: Le POM utilise `javafx.platform=mac-aarch64`. Pour build CI Linux:
-- Option A: Utiliser macOS runner (`runs-on: macos-latest`)
-- Option B: Refactoriser JavaFX par profils OS
-
-### Phase 2 (Future): Matrix multi-OS
-
-Pour générer des installers Windows/macOS natifs:
-1. Ajouter matrix strategy au workflow
-2. Adapter configuration jDeploy par OS
-3. Voir `release.yml` existant comme référence
-
-## 📚 Documentation
-
-- [jDeploy Official Docs](https://www.jdeploy.com/docs/)
-- [GitHub Action](https://github.com/shannah/jdeploy)
+</div>
