@@ -1,231 +1,98 @@
-# Configuration Dépôt Public de Releases pour jDeploy
+<div align="center">
 
-## 🎯 Vue d'Ensemble
-
-Ce guide explique comment configurer un dépôt GitHub **public** séparé pour distribuer les releases via jDeploy, tout en gardant votre code source **privé**.
-
----
-
-## 📋 Étape 1 : Créer le Dépôt Public
-
-### Sur GitHub
-
-1. Aller sur https://github.com/new
-2. **Repository name**: `presence-io-releases` (ou `presence-io-public`)
-3. **Visibility**: ✅ **Public**
-4. **Initialize with**: ✅ README
-5. Créer le dépôt
-
-### Contenu du README.md (exemple)
-
-```markdown
 # Presence IO
 
-Application de gestion de présence automatique.
+**Restez "en ligne" automatiquement — sans effort, sans friction.**
+
+[![Labs](https://img.shields.io/badge/canal-Labs%20(Early%20Access)-blueviolet?style=flat-square)](https://www.jdeploy.com/~presence-io-labs/app)
+[![Stable](https://img.shields.io/badge/canal-Stable-brightgreen?style=flat-square)](https://www.jdeploy.com/~presence-io/app)
+[![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=flat-square)](#)
+[![Java](https://img.shields.io/badge/Java-17%2B-orange?style=flat-square)](#)
+
+</div>
+
+---
 
 ## 📥 Installation
 
-**macOS, Windows, Linux**
+Choisissez votre canal selon votre profil :
 
-[⬇️ Installer Presence IO](https://www.jdeploy.com/~astroip/presence-io-releases)
+| Canal | Description | Lien |
+|---|---|---|
+| 🟢 **Stable** | Releases validées, recommandé pour tous | [Installer Stable](https://www.jdeploy.com/~presence-io/app) |
+| 🟣 **Labs** (Early Access) | Dernières fonctionnalités, early adopters | [Installer Labs](https://www.jdeploy.com/~presence-io-labs/app) |
 
-L'application inclut le JRE et se met à jour automatiquement.
+> L'installeur intègre le JRE — **aucun Java préinstallé nécessaire**.  
+> L'application se **met à jour automatiquement** à chaque release.
+
+---
+
+## 🖥️ Compatibilité
+
+| OS | Statut |
+|---|---|
+| macOS (Apple Silicon / Intel) | ✅ Supporté |
+| Windows 10 / 11 | ✅ Supporté |
+| Linux (x86_64) | ✅ Supporté |
+
+---
+
+## ✨ Fonctionnalités
+
+- **Simulation de présence** : mouvements de souris, activité clavier, signaux ciblés
+- **Profils configurables** : plannings horaires, intervalles, patterns aléatoires
+- **Architecture plugin** : stratégies et cibles extensibles (Mouse Jiggler, Teams, etc.)
+- **Multi-plateformes** : comportement natif adapté à chaque OS
+- **Mode Stealth** : discret, sans fenêtre visible *(PRO)*
+- **Auto-pause** : se met en pause quand vous êtes actif *(PRO)*
+
+---
+
+## 🚀 Premiers pas
+
+1. Cliquer sur le lien d'installation correspondant à votre canal
+2. Suivre l'assistant d'installation jDeploy
+3. Lancer **Presence IO** depuis vos applications
+4. Créer un profil et cliquer **Démarrer**
+
+---
+
+## 🔄 Cycle de releases
+
+```
+develop ──→ release/** ──→ [tag vX.Y.Z-rcN] ──→ 🟣 Labs (Early Access)
+                        └─→ [tag vX.Y.Z]     ──→ 🟢 Stable (Production)
+```
+
+- Les **Release Candidates** (`-rc`) sont publiées sur le canal Labs
+- Seules les versions **stables** (`vX.Y.Z`) arrivent sur le canal Stable
+
+---
 
 ## 📖 Documentation
 
-- [Guide utilisateur](https://votre-site.com/docs)
-- [FAQ](https://votre-site.com/faq)
-
-## 🐛 Support
-
-Pour toute question ou problème : support@votre-domaine.com
+- [Site officiel](https://presence-io.com)
+- [Guide utilisateur](https://presence-io.com/docs)
+- [FAQ](https://presence-io.com/faq)
 
 ---
 
-**Note**: Ce dépôt contient uniquement les releases publiques. Le code source est propriétaire.
-```
+## 🐛 Support & Feedback
+
+- 🐛 Bugs et suggestions : [presence-io.com/support](https://presence-io.com/support)  
+- 📧 Contact : support@presence-io.com
 
 ---
 
-## 🔑 Étape 2 : Créer un Personal Access Token (PAT)
+## 🔒 Note sur ce dépôt
 
-### GitHub Settings
-
-1. Aller sur https://github.com/settings/tokens
-2. **Classic tokens** → **Generate new token (classic)**
-3. **Note**: `jDeploy Public Releases`
-4. **Expiration**: 90 days (ou No expiration pour simplifier)
-5. **Scopes** à cocher:
-   - ✅ `repo` (Full control of private repositories)
-   - ✅ `write:packages`
-   - ✅ `delete:packages`
-
-6. Générer le token et **le copier** (vous ne pourrez plus le voir)
-
-### Ajouter dans GitHub Secrets
-
-1. Dans votre dépôt **privé** : `Settings` → `Secrets and variables` → `Actions`
-2. **New repository secret**
-   - Name: `PERSONAL_ACCESS_TOKEN`
-   - Value: Coller le token copié
-3. Sauvegarder
+Ce dépôt contient **uniquement les releases publiques** (binaires compilés).  
+Le code source est propriétaire — aucun secret ni donnée sensible n'est présent ici.
 
 ---
 
-## ⚙️ Étape 3 : Configurer le Workflow
+<div align="center">
 
-### Modifier le workflow
+Made with ☕ by the Presence IO team
 
-Éditez `.github/workflows/publish-public-release.yml` :
-
-```yaml
-# Ligne 60 - Changer le nom du dépôt public
-repository: astroip/presence-io-releases  # ← VOTRE dépôt public
-
-# Ligne 83 - Même chose
-repository: astroip/presence-io-releases  # ← VOTRE dépôt public
-```
-
----
-
-## 🧪 Étape 4 : Tester
-
-### Test en local (optionnel)
-
-```bash
-# 1. Build
-./scripts/jdeploy-build.sh
-
-# 2. Vérifier le JAR
-ls -lh presence-desktop-app/target/presence-io-jdeploy.jar
-```
-
-### Test avec une Release
-
-```bash
-# 1. Créer un tag de test
-git tag v1.0.0-test
-git push origin v1.0.0-test
-
-# 2. Créer une Release sur GitHub (dépôt privé)
-# → Le workflow se déclenche automatiquement
-
-# 3. Vérifier:
-# - Dépôt public : nouvelle release créée
-# - GitHub Actions : workflow réussi
-```
-
----
-
-## 🚀 Workflow de Release Complet
-
-### Depuis Votre Dépôt Privé
-
-```bash
-# Option A: Script automatique
-./scripts/release.sh 1.0.0
-
-# Option B: Manuel
-git tag v1.0.0
-git push origin v1.0.0
-# Puis créer la Release sur GitHub
-```
-
-### Ce Qui Se Passe Automatiquement
-
-1. ✅ Workflow se déclenche dans dépôt **privé**
-2. ✅ Build Maven + jDeploy
-3. ✅ Copie vers dépôt **public**
-4. ✅ Création Release publique
-5. ✅ Publication jDeploy
-6. ✅ URL disponible : `https://www.jdeploy.com/~astroip/presence-io-releases`
-
-### Vos Clients
-
-1. Vont sur l'URL jDeploy
-2. Cliquent "Install"
-3. App installée **sans certificat Apple**
-4. Auto-update automatique
-
----
-
-## 📊 Résumé Architecture
-
-```
-┌──────────────────────────────────┐
-│  astroip/presence-io (PRIVÉ)     │
-│  - Code source                   │
-│  - Développement                 │
-│  - CI/CD                         │
-└────────────┬─────────────────────┘
-             │
-             │ GitHub Actions
-             │ (publish-public-release.yml)
-             ▼
-┌──────────────────────────────────┐
-│ astroip/presence-io-releases     │
-│ (PUBLIC)                         │
-│  - README marketing              │
-│  - GitHub Releases               │
-│  - Binaires seulement            │
-└────────────┬─────────────────────┘
-             │
-             │ jDeploy
-             ▼
-┌──────────────────────────────────┐
-│  URL Installation Clients        │
-│  jdeploy.com/~astroip/...        │
-│  - Sans certificat Apple         │
-│  - Auto-update                   │
-└──────────────────────────────────┘
-```
-
----
-
-## ✅ Checklist de Configuration
-
-- [ ] Dépôt public créé sur GitHub
-- [ ] README marketing ajouté au dépôt public
-- [ ] Personal Access Token créé
-- [ ] Token ajouté aux Secrets GitHub (dépôt privé)
-- [ ] Workflow modifié avec le bon nom de dépôt
-- [ ] Test avec une release
-- [ ] URL jDeploy testée
-- [ ] Documentation client mise à jour
-
----
-
-## 🔒 Sécurité
-
-### Ce Qui Est Public
-- ✅ Binaires (JAR compilés)
-- ✅ README marketing
-- ✅ Releases GitHub
-
-### Ce Qui Reste Privé
-- ✅ Code source Java
-- ✅ Configuration Maven
-- ✅ Secrets (clés de licence, etc.)
-- ✅ Historique Git développement
-
----
-
-## 🆘 Troubleshooting
-
-### Erreur: "Resource not accessible by integration"
-
-**Solution**: Vérifier que le `PERSONAL_ACCESS_TOKEN` a les permissions `repo`.
-
-### Erreur: "Repository not found"
-
-**Solution**: Vérifier le nom du dépôt public dans le workflow (lignes 60 et 83).
-
-### jDeploy ne trouve pas la release
-
-**Solution**: Vérifier que la release est bien créée sur le dépôt **public** (pas le privé).
-
----
-
-## 📞 Support
-
-Questions ? Créez une issue dans le dépôt privé.
+</div>
