@@ -24,9 +24,23 @@
     "author": "presence-io",
     "license": "UNLICENSED",
     "jdeploy": {
+        "fallbackToUniversal": false,
+        "publishTargets": [
+            {
+                "name": "npm: npm",
+                "type": "NPM",
+                "url": ""
+            }
+        ],
         "title": "Presence IO",
         "jar": "presence-desktop-app/target/presence-io-jdeploy.jar",
         "javaVersion": "17",
-        "javafx": true
+        "javafx": true,
+        "platformBundlesEnabled": false,
+        "downloadPage": {
+            "platforms": [
+                "default"
+            ]
+        }
     }
 }
