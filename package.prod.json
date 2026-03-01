@@ -25,7 +25,7 @@
     "license": "UNLICENSED",
     "jdeploy": {
         "title": "Presence IO",
-        "jar": "../presence-desktop-app/target/presence-io-jdeploy.jar",
+        "jar": "presence-desktop-app/target/presence-io-jdeploy.jar",
         "javaVersion": "17",
         "javafx": true
     }
