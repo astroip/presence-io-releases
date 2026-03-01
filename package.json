@@ -1,6 +1,6 @@
 {
     "name": "presence-io-labs-app",
-    "version": "1.0.0-rc56",
+    "version": "1.0.0-rc58",
     "description": "Presence IO Labs — Early Access Desktop Application",
     "bin": {
         "presence-io": "jdeploy-bundle/jdeploy.js"
@@ -21,7 +21,6 @@
         "type": "git",
         "url": "https://github.com/astroip/presence-io-releases"
     },
-    "source": "https://github.com/astroip/presence-io-releases",
     "author": "presence-io",
     "license": "UNLICENSED",
     "jdeploy": {
