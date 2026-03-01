@@ -1,5 +1,5 @@
 {
-    "name": "@presence-io/app",
+    "name": "presence-io-app",
     "version": "0.0.0",
     "description": "Presence IO - Desktop Application",
     "bin": {

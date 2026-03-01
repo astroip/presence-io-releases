@@ -4,8 +4,8 @@
 
 **Restez "en ligne" automatiquement — sans effort, sans friction.**
 
-[![Labs](https://img.shields.io/badge/canal-Labs%20(Early%20Access)-blueviolet?style=flat-square)](https://www.jdeploy.com/~presence-io-labs/app)
-[![Stable](https://img.shields.io/badge/canal-Stable-brightgreen?style=flat-square)](https://www.jdeploy.com/~presence-io/app)
+[![Labs](https://img.shields.io/badge/canal-Labs%20(Early%20Access)-blueviolet?style=flat-square)](https://www.jdeploy.com/~presence-io-labs-app)
+[![Stable](https://img.shields.io/badge/canal-Stable-brightgreen?style=flat-square)](https://www.jdeploy.com/~presence-io-app)
 [![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=flat-square)](#)
 [![Java](https://img.shields.io/badge/Java-17%2B-orange?style=flat-square)](#)
 
@@ -19,8 +19,8 @@ Choisissez votre canal selon votre profil :
 
 | Canal | Description | Lien |
 |---|---|---|
-| 🟢 **Stable** | Releases validées, recommandé pour tous | [Installer Stable](https://www.jdeploy.com/~presence-io/app) |
-| 🟣 **Labs** (Early Access) | Dernières fonctionnalités, early adopters | [Installer Labs](https://www.jdeploy.com/~presence-io-labs/app) |
+| 🟢 **Stable** | Releases validées, recommandé pour tous | [Installer Stable](https://www.jdeploy.com/~presence-io-app) |
+| 🟣 **Labs** (Early Access) | Dernières fonctionnalités, early adopters | [Installer Labs](https://www.jdeploy.com/~presence-io-labs-app) |
 
 > L'installeur intègre le JRE — **aucun Java préinstallé nécessaire**.  
 > L'application se **met à jour automatiquement** à chaque release.
