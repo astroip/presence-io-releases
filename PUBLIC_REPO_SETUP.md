@@ -11,7 +11,7 @@ Ce guide explique comment configurer un dépôt GitHub **public** séparé pour 
 ### Sur GitHub
 
 1. Aller sur https://github.com/new
-2. **Repository name**: `presence-io-releases` (ou `presence-io-public`)
+2. **Repository name**: `presence-io-app-releases`
 3. **Visibility**: ✅ **Public**
 4. **Initialize with**: ✅ README
 5. Créer le dépôt
@@ -27,7 +27,7 @@ Application de gestion de présence automatique.
 
 **macOS, Windows, Linux**
 
-[⬇️ Installer Presence IO](https://www.jdeploy.com/~astroip/presence-io-releases)
+[⬇️ Installer Presence IO](https://www.jdeploy.com/gh/astroip/presence-io-app-releases)
 
 L'application inclut le JRE et se met à jour automatiquement.
 
@@ -76,14 +76,11 @@ Pour toute question ou problème : support@votre-domaine.com
 
 ### Modifier le workflow
 
-Éditez `.github/workflows/publish-public-release.yml` :
+Éditez `.github/workflows/publish-prod-release.yml` :
 
 ```yaml
-# Ligne 60 - Changer le nom du dépôt public
-repository: astroip/presence-io-releases  # ← VOTRE dépôt public
-
-# Ligne 83 - Même chose
-repository: astroip/presence-io-releases  # ← VOTRE dépôt public
+# Dépôt public dédié au canal stable
+target_repository: astroip/presence-io-app-releases
 ```
 
 ---
@@ -135,10 +132,10 @@ git push origin v1.0.0
 
 1. ✅ Workflow se déclenche dans dépôt **privé**
 2. ✅ Build Maven + jDeploy
-3. ✅ Copie vers dépôt **public**
-4. ✅ Création Release publique
-5. ✅ Publication jDeploy
-6. ✅ URL disponible : `https://www.jdeploy.com/~astroip/presence-io-releases`
+3. ✅ Publication jDeploy vers dépôt **public** dédié
+4. ✅ Mise à jour du tag `jdeploy`
+5. ✅ Création de la release publique versionnée
+6. ✅ URL disponible : `https://www.jdeploy.com/gh/astroip/presence-io-app-releases`
 
 ### Vos Clients
 
@@ -160,10 +157,10 @@ git push origin v1.0.0
 └────────────┬─────────────────────┘
              │
              │ GitHub Actions
-             │ (publish-public-release.yml)
+             │ (publish-prod-release.yml)
              ▼
 ┌──────────────────────────────────┐
-│ astroip/presence-io-releases     │
+│ astroip/presence-io-app-releases │
 │ (PUBLIC)                         │
 │  - README marketing              │
 │  - GitHub Releases               │
@@ -174,7 +171,7 @@ git push origin v1.0.0
              ▼
 ┌──────────────────────────────────┐
 │  URL Installation Clients        │
-│  jdeploy.com/~astroip/...        │
+│  jdeploy.com/gh/astroip/...      │
 │  - Sans certificat Apple         │
 │  - Auto-update                   │
 └──────────────────────────────────┘
@@ -218,11 +215,12 @@ git push origin v1.0.0
 
 ### Erreur: "Repository not found"
 
-**Solution**: Vérifier le nom du dépôt public dans le workflow (lignes 60 et 83).
+**Solution**: Vérifier `target_repository` dans `publish-prod-release.yml`.
 
 ### jDeploy ne trouve pas la release
 
-**Solution**: Vérifier que la release est bien créée sur le dépôt **public** (pas le privé).
+**Solution**: Vérifier que la release versionnée et le tag `jdeploy`
+sont bien créés sur le dépôt **public**.
 
 ---
 

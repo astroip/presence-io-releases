@@ -19,7 +19,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/astroip/presence-io-releases"
+        "url": "https://github.com/astroip/presence-io-app-releases"
     },
     "homepage": "https://presence-io.com",
     "author": "presence-io",
