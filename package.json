@@ -1,6 +1,6 @@
 {
     "name": "presence-io-labs-app",
-    "version": "1.0.8-rc2",
+    "version": "1.0.8-rc4",
     "description": "Presence IO Labs — Early Access Desktop Application",
     "bin": {
         "presence-io": "jdeploy-bundle/jdeploy.js"
